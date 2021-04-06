@@ -1,5 +1,4 @@
-use std::path::Path;
-use std::time::Duration;
+use std::{path::Path, time::Duration};
 
 fn main() {
     wgpu_subscriber::initialize_default_subscriber(Some(Path::new("chrome.json")));

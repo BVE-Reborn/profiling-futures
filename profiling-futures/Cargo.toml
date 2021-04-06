@@ -10,10 +10,6 @@ license = "MIT OR Apache-2.0 OR Zlib"
 keywords = []
 categories = []
 
-[[example]]
-name = "chrome"
-path = "../examples/chrome.rs"
-
 [package.metadata.release]
 disable-tag = true
 tag-prefix = ""
