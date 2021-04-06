@@ -2,7 +2,7 @@ use proc_macro::TokenStream;
 use quote::quote;
 
 #[proc_macro_attribute]
-pub fn async_instrument(_attr: TokenStream, item: TokenStream) -> TokenStream {
+pub fn wrap(_attr: TokenStream, item: TokenStream) -> TokenStream {
     let function = syn::parse_macro_input!(item as syn::ItemFn);
 
     let attrs = function.attrs;

@@ -2,7 +2,7 @@ use parking_lot::Mutex;
 use pin_project_lite::pin_project;
 use std::{cell::RefCell, future::Future, mem, sync::Arc};
 
-pub use profiling_futures_macros::async_instrument;
+pub use profiling_futures_macros::wrap;
 pub use tracing;
 
 thread_local! {
@@ -23,7 +23,7 @@ macro_rules! enter_unguarded {
         let span = $crate::tracing::span!($crate::tracing::Level::INFO, $name);
         $crate::SIDE_CHANNEL.with(|side| {
             let borrow1 = side.borrow();
-            let mut borrow2 = borrow1.lock();
+            let mut borrow2 = borrow1.try_lock().expect("no contention is expected");
             borrow2.active.push($crate::Active { span: span.entered() });
         });
     };
@@ -34,7 +34,7 @@ macro_rules! exit {
     () => {
         $crate::SIDE_CHANNEL.with(|side| {
             let borrow1 = side.borrow();
-            let mut borrow2 = borrow1.lock();
+            let mut borrow2 = borrow1.try_lock().expect("no contention is expected");
             borrow2.active.pop();
         })
     };
@@ -121,14 +121,14 @@ where
             mem::replace(&mut *borrow, Arc::clone(&this.storage))
         });
 
-        let mut borrow_guard = this.storage.lock();
+        let mut borrow_guard = this.storage.try_lock().expect("no contention is expected");
         let borrow = &mut *borrow_guard;
         borrow.active.extend(borrow.waiting.drain(..).map(Active::from));
         drop(borrow_guard);
 
         let res = this.inner.poll(cx);
 
-        let mut borrow_guard = this.storage.lock();
+        let mut borrow_guard = this.storage.try_lock().expect("no contention is expected");
         let borrow = &mut *borrow_guard;
         borrow.waiting.extend(borrow.active.drain(..).map(Waiting::from));
         drop(borrow_guard);
