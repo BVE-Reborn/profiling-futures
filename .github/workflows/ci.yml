@@ -39,15 +39,23 @@ jobs:
           restore-keys: |
             ${{ matrix.os }}-${{ steps.setup-rust.outputs.rustc_hash }}
 
-      - uses: actions-rs/cargo@v1
+      - name: Build Library (no features)
+        uses: actions-rs/cargo@v1
+        with:
+          command: build -p profiling-futures --no-default-features
+
+      - name: Build Library
+        uses: actions-rs/cargo@v1
+        with:
+          command: build -p profiling-futures
+
+      - name: Build Examples
+        uses: actions-rs/cargo@v1
         with:
           command: build
 
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
-
-      - uses: actions-rs/cargo@v1
+      - name: Clippy
+        uses: actions-rs/cargo@v1
         with:
           command: clippy
         if: matrix.rust_version == 'stable'

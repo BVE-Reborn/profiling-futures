@@ -2,6 +2,7 @@ use parking_lot::Mutex;
 use pin_project_lite::pin_project;
 use std::{cell::RefCell, future::Future, mem, sync::Arc};
 
+#[cfg(feature = "procmacros")]
 pub use profiling_futures_macros::wrap;
 pub use tracing;
 

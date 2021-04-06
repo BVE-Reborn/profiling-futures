@@ -10,6 +10,10 @@ license = "MIT OR Apache-2.0 OR Zlib"
 keywords = []
 categories = []
 
+[features]
+default = ["procmacros"]
+procmacros = ["profiling-futures-macros"]
+
 [package.metadata.release]
 disable-tag = true
 tag-prefix = ""
@@ -38,7 +42,7 @@ replace = "[Unreleased](https://github.com/BVE-Reborn/rend3/compare/v{{version}}
 [dependencies]
 parking_lot = "0.11"
 pin-project-lite = "0.2"
-profiling-futures-macros = { path = "../profiling-futures-macros" }
+profiling-futures-macros = { path = "../profiling-futures-macros", optional = true }
 tracing = { version = "0.1", default-features = false }
 smallvec = "1"
 
