@@ -42,12 +42,14 @@ jobs:
       - name: Build Library (no features)
         uses: actions-rs/cargo@v1
         with:
-          command: build -p profiling-futures --no-default-features
+          command: build
+          args: -p profiling-futures --no-default-features
 
       - name: Build Library
         uses: actions-rs/cargo@v1
         with:
-          command: build -p profiling-futures
+          command: build
+          args: -p profiling-futures
 
       - name: Build Examples
         uses: actions-rs/cargo@v1
