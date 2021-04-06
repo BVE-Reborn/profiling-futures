@@ -1,18 +1,10 @@
-[package]
-name = "profiling-futures"
-version = "0.1.0"
-authors = ["Connor Fitzgerald <connorwadefitzgerald@gmail.com>"]
-edition = "2018"
-description = ".."
-readme = "README.md"
-repository = "https://github.com/BVE-Reborn/profiling-futures"
-license = "MIT OR Apache-2.0 OR Zlib"
-keywords = []
-categories = []
+[workspace]
+members = [
+    "examples/chrome",
+    "profiling-futures",
+    "profiling-futures-macros"
+]
 
 [profile.release]
 debug = false
 lto = "thin"
-
-[dependencies]
-

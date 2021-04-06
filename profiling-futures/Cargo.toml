@@ -1,0 +1,49 @@
+[package]
+name = "profiling-futures"
+version = "0.1.0"
+authors = ["Connor Fitzgerald <connorwadefitzgerald@gmail.com>"]
+edition = "2018"
+description = ".."
+readme = "README.md"
+repository = "https://github.com/BVE-Reborn/profiling-futures"
+license = "MIT OR Apache-2.0 OR Zlib"
+keywords = []
+categories = []
+
+[[example]]
+name = "chrome"
+path = "../examples/chrome.rs"
+
+[package.metadata.release]
+disable-tag = true
+tag-prefix = ""
+pre-release-hook = ["cargo", "readme", "-o", "../README.md", "-t", "../README.tpl"]
+# [[package.metadata.release.pre-release-replacements]]
+# file = "src/lib.rs"
+# search = "rend3 = \"[a-z0-9\\.-]+\""
+# replace = "rend3 = \"{{version}}\""
+[[package.metadata.release.pre-release-replacements]]
+file = "../CHANGELOG.md"
+search = "\\[Unreleased\\]\\(#unreleased\\)"
+replace = "[Unreleased](#unreleased)\n- [v{{version}}](#v{{version}})"
+[[package.metadata.release.pre-release-replacements]]
+file = "../CHANGELOG.md"
+search = "\\[v([0-9+])\\.([0-9+])\\.([0-9+])\\]\\(#v[0-9\\.]+\\)"
+replace = "[v$1.$2.$3](#v$1$2$3)"
+[[package.metadata.release.pre-release-replacements]]
+file = "../CHANGELOG.md"
+search = "## Unreleased"
+replace = "## Unreleased\n\n## v{{version}}\n\nReleased {{date}}"
+[[package.metadata.release.pre-release-replacements]]
+file = "../CHANGELOG.md"
+search = "\\[Unreleased\\]\\(https://github.com/BVE-Reborn/rend3/compare/v([a-z0-9.-]+)\\.\\.\\.HEAD\\)"
+replace = "[Unreleased](https://github.com/BVE-Reborn/rend3/compare/v{{version}}...HEAD)\n- [v{{version}}](https://github.com/BVE-Reborn/rend3/compare/v$1...v{{version}})"
+
+[dependencies]
+parking_lot = "0.11"
+pin-project-lite = "0.2"
+profiling-futures-macros = { path = "../profiling-futures-macros" }
+tracing = { version = "0.1", default-features = false }
+smallvec = "1"
+
+
